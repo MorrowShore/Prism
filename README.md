@@ -29,7 +29,7 @@ ssh  ssh://root@<server IP address>
 
 * 4- Build our image:
 ```
-docker build -t Prism github.com/MorrowShore/Prism
+docker build -t prism github.com/MorrowShore/Prism
 ```
 
 * 5- Verify it has been built:
