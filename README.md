@@ -9,7 +9,7 @@ You can then simply stream to your Prism, and it will send your stream to all th
 
 ## Prequisites
 
-<span style="color:red">You'd need a VPS server for this, but fret not, its specification or power does not matter!<span>
+You'd need a VPS server for this, but fret not, its specification or power does not matter!
 
 You can get very cheap (1~5 USD) Linux VPS from providers such as Linode, Ionos, Digital Ocean, etc.
 
