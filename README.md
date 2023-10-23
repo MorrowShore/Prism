@@ -43,7 +43,8 @@ docker images
 docker run -it -p 1935:1935 --name Prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" Prism
 ```
 
-If you're not going to stream to a specific platform, simply remove it from the prompt.
+If you're not going to stream to a specific platform, 
+simply remove it from the prompt (along with the "-e" before it).
 
 * 7- In OBS' stream options, enter the following in the Server field:
 ```
@@ -54,7 +55,7 @@ As for the stream key, you can put anything.
 
 * 8- Begin streaming!
 
-We advise you test it with two platforPrism first.
+We advise you test it with two platforms first.
 
 
 * To STOP the docker, (multistreaming server) run:
