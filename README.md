@@ -7,7 +7,7 @@ You can host Prism on a server to act as a prism for your streamed content!
 You can then simply stream to your Prism, and it will send your stream to all the platforms you'd like.
 
 
-<span style="color:red">## Prequisites<span>
+## <span style="color:red">Prequisites<span>
 
 You'd need a VPS server for this, but fret not, its specification or power does not matter!
 
