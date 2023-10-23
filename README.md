@@ -7,7 +7,7 @@ You can host Prism on a server to act as a prism for your streamed content!
 You can then simply stream to your Prism, and it will send your stream to all the platforms you'd like.
 
 
-## Prequisites
+<span style="color:red">## Prequisites<span>
 
 You'd need a VPS server for this, but fret not, its specification or power does not matter!
 
@@ -92,7 +92,7 @@ You can also add CloudFlare & Instagram support by adding the following to the p
 ```
 -e CLOUDFLARE_KEY="<key>"
 ```
-```bash
+```
 -e INSTAGRAM_KEY="<key>"
 ```
 
