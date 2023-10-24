@@ -65,11 +65,15 @@ We advise you test it with two platforms first.
 docker stop Prism
 ```
 
+
+
 * To START the docker, run:
 
 ```
 docker start Prism
 ```
+
+
 
 * To EDIT the destinations,
 
@@ -80,6 +84,8 @@ docker rm Prism
 ```
 
 and then run an edited prompt at step #6
+
+
 
 * To UNINSTALL the entire project, run:
 
