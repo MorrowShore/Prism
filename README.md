@@ -75,23 +75,25 @@ docker start Prism
 
 Remove the container:
 
-```docker rm Prism```
+```
+docker rm Prism
+```
 
 and then run an edited prompt at step #6
 
 * To UNINSTALL the entire project, run:
 
-```bash
+```
 docker rm Prism
 ```
 Then,
 
-```bash
+```
 docker images
 ```
 Copy the image ID and then run:
 
-```bash
+```
 docker rmi <IMAGE_ID>
 ```
 
