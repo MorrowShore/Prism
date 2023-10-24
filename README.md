@@ -70,7 +70,15 @@ docker stop Prism
 docker start Prism
 ```
 
-* To DELETE the docker, run:
+* To EDIT the destinations,
+
+Remove the container:
+
+```docker rm Prism```
+
+and then run an edited prompt at step #6
+
+* To UNINSTALL the entire project, run:
 
 ```bash
 docker rm Prism
