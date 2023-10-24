@@ -105,8 +105,9 @@ docker rmi <IMAGE_ID>
 
 ---
 
-You can also add CloudFlare & Instagram support by adding the following to the prompt #6: 
+* To ADD CloudFlare & Instagram support: 
 
+Add the following to the prompt #6
 ```
 -e CLOUDFLARE_KEY="<key>"
 ```
