@@ -1,5 +1,3 @@
----
----
 ## Introduction
 
 Would you like to stream to Twitch, Youtube, Kick, Trovo, Facebook, Instagram, and etc at once, but don't have the upload capacity to do it from your own computer?
@@ -8,16 +6,16 @@ You can host Prism on a server to act as a prism for your streamed content!
 
 You can then simply stream to your Prism, and it will send your stream to all the platforms you'd like.
 
----
----
+
+
 ## Prequisites
 
 You'd need a VPS server for this, but fret not, its specification or power does not matter!
 
 You can get very cheap (1~5 USD) Linux VPS from providers such as Linode, Ionos, Digital Ocean, etc.
 
----
----
+
+
 ## How To Set up
 
 * 1- SSH into your VPS server,
@@ -61,8 +59,8 @@ As for the stream key, you can put anything.
 
 We advise you test it with two platforms first.
 
----
----
+
+
 ## How To Manage
 
 * To STOP the docker, (multistreaming server) run:
