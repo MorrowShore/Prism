@@ -14,7 +14,7 @@ You'd need a VPS server for this, but fret not, its specification or power does 
 You can get very cheap (1~5 USD) Linux VPS from providers such as Linode, Ionos, Digital Ocean, etc.
 
 
-## How To Use
+## How To Set up
 
 * 1- SSH into your VPS server,
 ```
@@ -57,6 +57,7 @@ As for the stream key, you can put anything.
 
 We advise you test it with two platforms first.
 
+## How To Manage
 
 * To STOP the docker, (multistreaming server) run:
 
