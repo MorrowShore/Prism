@@ -65,7 +65,7 @@ We advise you test it with two platforms first.
 docker stop Prism
 ```
 
-
+---
 
 * To START the docker, run:
 
@@ -73,7 +73,7 @@ docker stop Prism
 docker start Prism
 ```
 
-
+---
 
 * To EDIT the destinations,
 
@@ -85,7 +85,7 @@ docker rm Prism
 
 and then run an edited prompt at step #6
 
-
+---
 
 * To UNINSTALL the entire project, run:
 
@@ -103,6 +103,7 @@ Copy the image ID and then run:
 docker rmi <IMAGE_ID>
 ```
 
+---
 
 You can also add CloudFlare & Instagram support by adding the following to the prompt #6: 
 
