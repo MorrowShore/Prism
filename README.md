@@ -66,7 +66,7 @@ We advise you test it with two platforms first.
 * To STOP the docker, (multistreaming server) run:
 
 ```
-docker stop Prism
+docker stop prism
 ```
 
 ---
@@ -74,7 +74,7 @@ docker stop Prism
 * To START the docker, run:
 
 ```
-docker start Prism
+docker start prism
 ```
 
 ---
@@ -84,7 +84,7 @@ docker start Prism
 Remove the container:
 
 ```
-docker rm Prism
+docker rm prism
 ```
 
 and then run an edited prompt at step #6
@@ -94,7 +94,7 @@ and then run an edited prompt at step #6
 * To UNINSTALL the entire project, run:
 
 ```
-docker rm Prism
+docker rm prism
 ```
 Then,
 
