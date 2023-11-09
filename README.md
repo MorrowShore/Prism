@@ -42,7 +42,7 @@ docker images
 * 6- Now edit the following prompt with your own key, and then run it:
 
 ```
-docker run -it -p 1935:1935 --name Prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" Prism
+docker run -it -p 1935:1935 --name prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" prism
 ```
 
 If you're not going to stream to a specific platform, 
