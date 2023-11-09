@@ -124,5 +124,5 @@ Add the following to the prompt #6
 If something is not working you can check the logs of the container with:
 
 ```bash
-docker logs Prism
+docker logs prism
 ```
