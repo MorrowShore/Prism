@@ -126,3 +126,12 @@ If something is not working you can check the logs of the container with:
 ```bash
 docker logs prism
 ```
+
+
+## Support
+
+Need help with anything, or have thought of an upgrade?
+
+Find us at our Discord server: https://discord.gg/2sbnwze753
+
+
