@@ -89,6 +89,18 @@ ENV CLOUDFLARE_KEY ""
 ENV TWITCH_URL ""
 ENV TWITCH_KEY ""
 
+#Rtmp1
+ENV RTMP1_URL ""
+ENV RTMP1_KEY ""
+
+#Rtmp2
+ENV RTMP2_URL ""
+ENV RTMP2_KEY ""
+
+#Rtmp3
+ENV RTMP3_URL ""
+ENV RTMP3_KEY ""
+
 #Trovo
 ENV TROVO_URL rtmp://livepush.trovo.live/live/
 ENV TROVO_KEY ""

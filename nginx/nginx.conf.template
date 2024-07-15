@@ -15,6 +15,9 @@ rtmp {
             #youtube
             #cloudflare
             #twitch
+            #rtmp1
+            #rtmp2
+            #rtmp3
             #kick
             #trovo
         }

@@ -46,6 +46,30 @@ else
 	sed -i 's|#twitch| |g' $NGINX_TEMPLATE
 fi
 
+if [ -n "${RTMP1_KEY}" ]; then
+	echo "Rtmp1 activate."
+	sed -i 's|#rtmp1|push '"$RTMP1_URL"'${RTMP1_KEY};|g' $NGINX_TEMPLATE
+	ENV_OK=1
+else
+	sed -i 's|#rtmp1| |g' $NGINX_TEMPLATE
+fi
+
+if [ -n "${RTMP2_KEY}" ]; then
+	echo "Rtmp2 activate."
+	sed -i 's|#rtmp2|push '"$RTMP2_URL"'${RTMP2_KEY};|g' $NGINX_TEMPLATE
+	ENV_OK=1
+else
+	sed -i 's|#rtmp2| |g' $NGINX_TEMPLATE
+fi
+
+if [ -n "${RTMP3_KEY}" ]; then
+	echo "Rtmp3 activate."
+	sed -i 's|#rtmp3|push '"$RTMP3_URL"'${RTMP3_KEY};|g' $NGINX_TEMPLATE
+	ENV_OK=1
+else
+	sed -i 's|#rtmp3| |g' $NGINX_TEMPLATE
+fi
+
 if [ -n "${TROVO_KEY}" ]; then
 	echo "Trovo activate."
 	sed -i 's|#trovo|push '"$TROVO_URL"'${TROVO_KEY};|g' $NGINX_TEMPLATE
