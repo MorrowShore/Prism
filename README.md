@@ -1,3 +1,6 @@
+## NOW WITH CUSTOM DESTINATIONS
+
+
 ## Introduction
 
 Would you like to stream to Twitch, Youtube, Kick, Trovo, Facebook, Instagram, and etc at once, but don't have the upload capacity to do it from your own computer?
@@ -42,7 +45,7 @@ docker images
 * 6- Now edit the following prompt with your own key, and then run it:
 
 ```
-docker run -it -p 1935:1935 --name prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" prism
+docker run -it -p 1935:1935 --name prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" prism -e RTMP1_URL="<custom server>" -e RTMP1_KEY="<custom key>" -e RTMP2_URL="<custom server>" -e RTMP2_KEY="<custom key>" -e RTMP3_URL="<custom server>" -e RTMP3_KEY="<custom key>"
 ```
 
 If you're not going to stream to a specific platform, 
