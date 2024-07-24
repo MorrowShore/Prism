@@ -56,7 +56,7 @@ If you're not going to stream to a specific platform, simply remove it from the 
 rtmp://<server IP address>/live
 ```
 
-As for the stream key, you can put anything.
+As for the Prism stream key in OBS settings, you can put anything.
 
 * 8- Begin streaming!
 
