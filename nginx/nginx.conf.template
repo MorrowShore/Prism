@@ -11,6 +11,17 @@ rtmp {
         application live {
             live on;
             record off;
+
+            # Secret stream key validation
+            allow publish all;  # Allow all clients to publish
+            deny publish all;   # Deny all clients without a valid key
+            
+            # Valid stream keys
+            allow publish "your_secret_key_here";
+            allow publish "another_valid_key_here";
+            deny publish all;  # Deny all others
+
+            # Services
             #facebook
             #youtube
             #cloudflare
@@ -20,14 +31,18 @@ rtmp {
             #rtmp3
             #kick
             #trovo
+            #x
         }
         
         application instagram {
             live on;
             record off;
+
+            # Optional: Separate stream key validation for Instagram
+            allow publish "instagram_secret_key";
+            deny publish all;
+
             #instagram
         }
-
     }
-
 }
