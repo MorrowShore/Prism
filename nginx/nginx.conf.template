@@ -1,47 +1,53 @@
 worker_processes auto;
 rtmp_auto_push on;
 rtmp_auto_push_reconnect 1s;
+
 events {}
+
 rtmp {
     server {
         listen 1935;
         listen [::]:1935 ipv6only=on;
         chunk_size 4096;
+
         application live {
             live on;
             record off;
-            # Stream key validation
-            on_publish http://127.0.0.1:8080/validate?name=$name;
-            # Services
-            #facebook
-            #youtube
-            #cloudflare
-            #twitch
-            #rtmp1
-            #rtmp2
-            #rtmp3
-            #kick
-            #trovo
-            #x
+            # Stream services configurations
+            # YouTube
+            #push rtmp://a.rtmp.youtube.com/live2/<key>;
+            # Facebook
+            #push rtmp://127.0.0.1:19350/rtmp/<key>;
+            # Instagram
+            #push rtmp://127.0.0.1:19351/rtmp/<key>;
+            # Cloudflare
+            #push rtmp://127.0.0.1:19352/live/<key>;
+            # Kick
+            #push rtmp://127.0.0.1:19353/kick/<key>;
+            # X
+            #push rtmp://127.0.0.1:19354/x/<key>;
         }
+        
         application instagram {
             live on;
             record off;
-            # Stream key validation
-            on_publish http://127.0.0.1:8080/validate?name=$name;
+            # Instagram configuration
+            #push rtmp://127.0.0.1:19351/rtmp/<key>;
         }
     }
 }
+
 http {
     include       mime.types;
     default_type  application/octet-stream;
+
     server {
         listen 8080;
         server_name localhost;
+
         # Validate stream key
         location /validate {
             internal;
-            # Match a single stream key
             if ($arg_name) {
                 set $validated 0;
                 if ($arg_name = "your_single_stream_key_here") {
@@ -50,8 +56,9 @@ http {
                 if ($validated = 0) {
                     return 403;
                 }
+                return 200;
             }
-            return 200;
+            return 403;
         }
     }
 }
