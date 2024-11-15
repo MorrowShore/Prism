@@ -1,6 +1,7 @@
 from flask import Flask, request, Response
 import os
 import logging
+from urllib.parse import parse_qs
 
 app = Flask(__name__)
 logging.basicConfig(
@@ -18,12 +19,17 @@ VALID_KEYS = [
 
 @app.route('/validate', methods=['POST'])
 def validate():
-    # Get stream key directly from RTMP call
-    stream_key = request.get_data(as_text=True)
+    # Get raw data and parse it
+    raw_data = request.get_data(as_text=True)
+    parsed_data = parse_qs(raw_data)
+    
+    # Extract the stream key from the 'name' parameter
+    stream_key = parsed_data.get('name', [''])[0]
     client_ip = request.remote_addr
     
     # Debug logging
-    app.logger.debug(f"Raw request data: {request.get_data(as_text=True)}")
+    app.logger.debug(f"Raw request data: {raw_data}")
+    app.logger.debug(f"Parsed data: {parsed_data}")
     app.logger.debug(f"Received stream key: '{stream_key}'")
     
     # Remove any empty keys from validation
