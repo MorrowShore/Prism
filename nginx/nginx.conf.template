@@ -41,9 +41,6 @@ http {
         
         location /validate {
             internal;
-            if ($arg_name = "$empty") {
-                return 403;
-            }
             if ($arg_name "your_secret_key_here") {
                 return 200;
             }
