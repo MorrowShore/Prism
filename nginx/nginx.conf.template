@@ -41,10 +41,10 @@ http {
         
         location /validate {
             internal;
-            if ($arg_name "your_secret_key_here") {
+            if ($arg_key "your_secret_key_here") {
                 return 200;
             }
-            if ($arg_name "another_valid_key_here") {
+            if ($arg_key "another_valid_key_here") {
                 return 200;
             }
             return 403;
