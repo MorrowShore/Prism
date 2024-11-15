@@ -13,8 +13,8 @@ rtmp {
             record off;
 
             # Secret stream key validation
-            allow publish all;  # Allow all clients to publish
-            deny publish all;   # Deny all clients without a valid key
+            #allow publish all;  # Allow all clients to publish
+            #deny publish all;   # Deny all clients without a valid key
             
             # Valid stream keys
             allow publish "your_secret_key_here";
