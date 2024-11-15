@@ -38,10 +38,10 @@ http {
         listen 8080;
 
         location /validate {
-            internal;  
-            set $valid_key 0;  
+            internal;  # Prevent external access to this endpoint
+            set $valid_key 0;  # Initialize the variable
 
-            # Define valid stream keys
+            # Define valid stream keys with correct if conditions
             if ($arg_name = "your_secret_key_here") {
                 set $valid_key 1;
             }
@@ -50,10 +50,12 @@ http {
                 set $valid_key 1;
             }
 
-            if ($valid_key = 0) {
+            # Reject streams with invalid keys
+            if ($valid_key != 1) {
                 return 403;  # Forbidden for invalid keys
             }
 
+            # Accept streams with valid keys
             return 200;  # OK for valid keys
         }
     }
