@@ -41,7 +41,7 @@ http {
         
         location /validate {
             internal;
-            if ($arg_name ~ "^$") {
+            if (!$arg_name) {
                 return 403;
             }
             if ($arg_name "your_secret_key_here") {
