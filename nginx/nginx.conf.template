@@ -40,23 +40,16 @@ http {
         listen 8080;
         server_name localhost;
 
-        # Validate the specific stream key
+        # Validate stream key
         location /validate {
             internal;
 
-            # Allow access only for the specific key
-            set $valid_key 0;
-
-            # Match the stream key
-            if ($arg_name = "your_single_stream_key_here") {
-                set $valid_key 1;
+            # Match a single stream key
+            if ($arg_name != "your_single_stream_key_here") {
+                return 403;
             }
 
-            # Allow or deny based on the key
-            if ($valid_key = 1) {
-                return 200;
-            }
-            return 403;
+            return 200;
         }
     }
 }
