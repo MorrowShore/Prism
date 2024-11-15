@@ -12,14 +12,12 @@ rtmp {
             live on;
             record off;
 
-            # Secret stream key validation
-            #allow publish all;  # Allow all clients to publish
-            #deny publish all;   # Deny all clients without a valid key
+
             
             # Valid stream keys
             allow publish "your_secret_key_here";
             allow publish "another_valid_key_here";
-            deny publish all;  # Deny all others
+            deny publish all;  
 
             # Services
             #facebook
