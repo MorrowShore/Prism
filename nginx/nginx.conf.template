@@ -10,30 +10,37 @@ rtmp {
         application live {
             live on;
             record off;
-            # Stream key validation
-            on_publish http://127.0.0.1:8080/validate;
+            # Stream key validation - updated to pass key parameter
+            on_publish http://127.0.0.1:8080/validate?key=$arg_name;
+            
             # Stream services configurations
             # YouTube
-            #push rtmp://a.rtmp.youtube.com/live2/<key>;
+            #youtube
+            
             # Facebook
-            #push rtmp://127.0.0.1:19350/rtmp/<key>;
+            #facebook
+            
             # Instagram
-            #push rtmp://127.0.0.1:19351/rtmp/<key>;
+            #instagram
+            
             # Cloudflare
-            #push rtmp://127.0.0.1:19352/live/<key>;
+            #cloudflare
+            
             # Kick
-            #push rtmp://127.0.0.1:19353/kick/<key>;
+            #kick
+            
             # X
-            #push rtmp://127.0.0.1:19354/x/<key>;
+            #x
         }
         
         application instagram {
             live on;
             record off;
-            # Stream key validation
-            on_publish http://127.0.0.1:8080/validate;
+            # Stream key validation - updated to pass key parameter
+            on_publish http://127.0.0.1:8080/validate?key=$arg_name;
+            
             # Instagram configuration
-            #push rtmp://127.0.0.1:19351/rtmp/<key>;
+            #instagram
         }
     }
 }
