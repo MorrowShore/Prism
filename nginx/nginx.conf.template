@@ -9,7 +9,6 @@ rtmp {
         listen 1935;
         listen [::]:1935 ipv6only=on;
         chunk_size 4096;
-
         application live {
             live on;
             record off;
@@ -27,7 +26,6 @@ rtmp {
             #trovo
             #x
         }
-
         application instagram {
             live on;
             record off;
@@ -38,8 +36,12 @@ rtmp {
 }
 
 http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
     server {
         listen 8080;
+        server_name localhost;
         
         location /validate {
             internal;  # Prevent external access to this endpoint
