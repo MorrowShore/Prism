@@ -40,13 +40,13 @@ http {
         listen 8080;
         server_name localhost;
 
-        location /validate {
-            internal;
+        # Exact match for a valid stream key
+        location = /validate?your_single_stream_key_here {
+            return 200;
+        }
 
-            # Check for one valid stream key
-            if ($args = "your_single_stream_key_here") {
-                return 200;
-            }
+        # Fallback for invalid stream keys
+        location /validate {
             return 403;
         }
     }
