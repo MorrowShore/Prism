@@ -6,6 +6,8 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 
 # Install dependencies Stunnel4
 RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    pip3 install flask && \
     apt-get install -y ca-certificates openssl libssl-dev stunnel4 gettext && \
     rm -rf /var/lib/apt/lists/*
 
@@ -51,6 +53,9 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
+# Copy the validation server
+COPY stream_validator.py /stream_validator.py
+
 # Config Stunnel
 RUN mkdir -p  /etc/stunnel/conf.d
 # Set up config file 
@@ -68,6 +73,9 @@ COPY stunnel/cloudflare.conf /etc/stunnel/conf.d/cloudflare.conf
 
 #Kick Stunnel Port 19353
 COPY stunnel/kick.conf /etc/stunnel/conf.d/kick.conf
+
+#X Stunnel Port 19354
+COPY stunnel/x.conf /etc/stunnel/conf.d/x.conf
 
 #Youtube
 ENV YOUTUBE_URL rtmp://a.rtmp.youtube.com/live2/
@@ -108,6 +116,9 @@ ENV TROVO_KEY ""
 #Kick
 ENV KICK_URL rtmp://127.0.0.1:19353/kick/
 ENV KICK_KEY ""
+
+ENV X_URL rtmp://127.0.0.1:19354/x/
+ENV X_KEY ""
 
 ENV DEBUG ""
 

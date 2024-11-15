@@ -1,10 +1,23 @@
 #!/bin/bash
-
 set -e
 
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
 ENV_OK=0
+
+# Start the stream key validation server
+echo "Starting stream key validation server..."
+python3 /stream_validator.py &
+VALIDATOR_PID=$!
+
+# Wait briefly to ensure validator is running
+sleep 2
+
+# Check if validator is running
+if ! kill -0 $VALIDATOR_PID 2>/dev/null; then
+    echo "Warning: Stream key validator failed to start"
+fi
+
 
 if [ -n "${YOUTUBE_KEY}" ]; then
 	echo "Youtube activate."
@@ -84,6 +97,14 @@ if [ -n "${KICK_KEY}" ]; then
 	ENV_OK=1
 else
 	sed -i 's|#kick| |g' $NGINX_TEMPLATE
+fi
+
+if [ -n "${X_KEY}" ]; then
+        echo "X activate."
+        sed -i 's|#x|push '"$X_URL"'${X_KEY};|g' $NGINX_TEMPLATE
+        ENV_OK=1
+else
+        sed -i 's|#x| |g' $NGINX_TEMPLATE
 fi
 
 if [ $ENV_OK -eq 1 ]; then
