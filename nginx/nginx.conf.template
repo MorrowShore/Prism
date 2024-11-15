@@ -39,15 +39,15 @@ http {
         listen 8080;
         server_name localhost;
         
-        location /validate {
-            internal;
-            if ($args "your_secret_key_here") {
-                return 200;
-            }
-            if ($args "another_valid_key_here") {
-                return 200;
-            }
-            return 403;
-        }
+		location /validate {
+			internal;
+			if ($args = "your_secret_key_here") {
+				return 200;
+			}
+			if ($args = "another_valid_key_here") {
+				return 200;
+			}
+			return 403;
+		}
     }
 }
