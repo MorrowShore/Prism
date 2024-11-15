@@ -7,40 +7,52 @@ rtmp {
         listen 1935;
         listen [::]:1935 ipv6only=on;
         chunk_size 4096;
+
+        # Twitch Application
+        application twitch {
+            live on;
+            record off;
+            on_publish http://127.0.0.1:8080/validate?key=$name;
+            push ${TWITCH_URL}${TWITCH_KEY};
+        }
+
+        # YouTube Application
+        application youtube {
+            live on;
+            record off;
+            on_publish http://127.0.0.1:8080/validate?key=$name;
+            push ${YOUTUBE_URL}${YOUTUBE_KEY};
+        }
+
+        # Kick Application
+        application kick {
+            live on;
+            record off;
+            on_publish http://127.0.0.1:8080/validate?key=$name;
+            push ${KICK_URL}${KICK_KEY};
+        }
+
+        # X Application
+        application x {
+            live on;
+            record off;
+            on_publish http://127.0.0.1:8080/validate?key=$name;
+            push ${X_URL}${X_KEY};
+        }
+
+        # Generic live application for multi-streaming
         application live {
             live on;
             record off;
-            # Stream key validation - using $name instead of $arg_name
             on_publish http://127.0.0.1:8080/validate?key=$name;
             
-            # Stream services configurations
-            # YouTube
             #youtube
-            
-            # Facebook
             #facebook
-            
-            # Instagram
             #instagram
-            
-            # Cloudflare
             #cloudflare
-            
-            # Kick
             #kick
-            
-            # X
             #x
-        }
-        
-        application instagram {
-            live on;
-            record off;
-            # Stream key validation - using $name instead of $arg_name
-            on_publish http://127.0.0.1:8080/validate?key=$name;
-            
-            # Instagram configuration
-            #instagram
+            #twitch
         }
     }
 }

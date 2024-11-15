@@ -18,12 +18,12 @@ VALID_KEYS = [
 
 @app.route('/validate', methods=['POST'])
 def validate():
-    # Get key from proper parameter
-    stream_key = request.args.get('key', '')
+    # Get stream key directly from RTMP call
+    stream_key = request.get_data(as_text=True)
     client_ip = request.remote_addr
     
     # Debug logging
-    app.logger.debug(f"Request args: {request.args}")
+    app.logger.debug(f"Raw request data: {request.get_data(as_text=True)}")
     app.logger.debug(f"Received stream key: '{stream_key}'")
     
     # Remove any empty keys from validation
