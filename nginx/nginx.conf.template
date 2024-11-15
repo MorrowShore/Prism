@@ -28,7 +28,7 @@ rtmp {
             live on;
             record off;
             # Stream key validation
-            on_publish http://127.0.0.1:8080/validate;
+            on_publish http://127.0.0.1:8080/validate?$name;
         }
     }
 }
