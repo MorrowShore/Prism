@@ -35,19 +35,25 @@ rtmp {
 http {
     include       mime.types;
     default_type  application/octet-stream;
+
+    # Map for key validation
+    map $args $valid_key {
+        default 0;
+        "your_secret_key_here" 1;
+        "another_valid_key_here" 1;
+    }
+
     server {
         listen 8080;
         server_name localhost;
-        
-		location /validate {
-			internal;
-			if ($args ~ "^your_secret_key_here$") {
-				return 200;
-			}
-			if ($args ~ "^another_valid_key_here$") {
-				return 200;
-			}
-			return 403;
-		}
+
+        location /validate {
+            internal;
+
+            if ($valid_key = 1) {
+                return 200;
+            }
+            return 403;
+        }
     }
 }
