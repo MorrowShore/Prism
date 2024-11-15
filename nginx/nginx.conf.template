@@ -15,19 +15,12 @@ rtmp {
             record off;
 
             # Stream key validation
-            on_publish http://127.0.0.1:1935/validate;
+            on_publish http://127.0.0.1:8080/validate;  # Use the correct port for validation
 
             # Services
-            #facebook
-            #youtube
-            #cloudflare
-            #twitch
-            #rtmp1
-            #rtmp2
-            #rtmp3
-            #kick
-            #trovo
-            #x
+            push rtmp://a.rtmp.youtube.com/live2/2dfc-31v6-9kaj-rpeq-3s65;
+            push rtmp://live.twitch.tv/app/live_26958464_F0Di8FWXggBMGoXjJEl2O0A303GV57;
+            push rtmp://127.0.0.1:19353/kick/sk_us-west-2_X3fdNoeyo9D9_B5CDp7xsrJx8efhXMLII8qYpgVXsZG;
         }
 
         application instagram {
@@ -35,27 +28,33 @@ rtmp {
             record off;
 
             # Stream key validation
-            on_publish http://127.0.0.1:1935/validate;
+            on_publish http://127.0.0.1:8080/validate;
         }
     }
+}
 
-    location /validate {
-        internal;  # Prevent external access to this endpoint
-        set $valid_key 0;
+http {
+    server {
+        listen 8080;
 
-        # Define valid stream keys
-        if ($arg_name = "your_secret_key_here") {
-            set $valid_key 1;
+        location /validate {
+            internal;  # Prevent external access to this endpoint
+            set $valid_key 0;
+
+            # Define valid stream keys
+            if ($arg_name = "your_secret_key_here") {
+                set $valid_key 1;
+            }
+
+            if ($arg_name = "another_valid_key_here") {
+                set $valid_key 1;
+            }
+
+            if ($valid_key = 0) {
+                return 403;  # Forbidden for invalid keys
+            }
+
+            return 200;  # OK for valid keys
         }
-
-        if ($arg_name = "another_valid_key_here") {
-            set $valid_key 1;
-        }
-
-        if ($valid_key = 0) {
-            return 403;  # Forbidden for invalid keys
-        }
-
-        return 200;  # OK for valid keys
     }
 }
