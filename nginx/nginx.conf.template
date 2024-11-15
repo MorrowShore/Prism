@@ -11,7 +11,7 @@ rtmp {
             live on;
             record off;
             # Stream key validation
-            on_publish http://127.0.0.1:8080/validate;
+            on_publish http://127.0.0.1:8080/validate?$name;
             # Services
             #facebook
             #youtube
@@ -40,11 +40,20 @@ http {
         listen 8080;
         server_name localhost;
 
+        # Validate the specific stream key
         location /validate {
             internal;
 
-            # Allow only the specific stream key
+            # Allow access only for the specific key
+            set $valid_key 0;
+
+            # Match the stream key
             if ($arg_name = "your_single_stream_key_here") {
+                set $valid_key 1;
+            }
+
+            # Allow or deny based on the key
+            if ($valid_key = 1) {
                 return 200;
             }
             return 403;
