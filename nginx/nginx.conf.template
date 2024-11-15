@@ -36,13 +36,6 @@ http {
     include       mime.types;
     default_type  application/octet-stream;
 
-    # Map for key validation
-    map $args $valid_key {
-        default 0;
-        "your_secret_key_here" 1;
-        "another_valid_key_here" 1;
-    }
-
     server {
         listen 8080;
         server_name localhost;
@@ -50,7 +43,8 @@ http {
         location /validate {
             internal;
 
-            if ($valid_key = 1) {
+            # Check for one valid stream key
+            if ($args = "your_single_stream_key_here") {
                 return 200;
             }
             return 403;
