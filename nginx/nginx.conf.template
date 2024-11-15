@@ -32,24 +32,4 @@ rtmp {
         }
     }
 }
-http {
-    include       mime.types;
-    default_type  application/octet-stream;
 
-    server {
-        listen 8080;
-        server_name localhost;
-
-        # Validate stream key
-        location /validate {
-            internal;
-
-            # Match a single stream key
-            if ($arg_name != "your_single_stream_key_here") {
-                return 403;
-            }
-
-            return 200;
-        }
-    }
-}
