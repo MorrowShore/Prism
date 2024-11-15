@@ -4,13 +4,14 @@ FROM buildpack-deps:bullseye
 ENV NGINX_VERSION nginx-1.18.0
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 
-# Install dependencies Stunnel4
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
+    apt-get install -y --no-install-recommends python3 python3-pip && \
     pip3 install flask && \
-    apt-get install -y ca-certificates openssl libssl-dev stunnel4 gettext && \
-    rm -rf /var/lib/apt/lists/*
-
+    apt-get install -y --no-install-recommends ca-certificates openssl libssl-dev stunnel4 gettext && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip3 cache purge
+	
 # Download and decompress Nginx
 RUN mkdir -p /tmp/build/nginx && \
     cd /tmp/build/nginx && \
