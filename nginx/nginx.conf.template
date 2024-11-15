@@ -1,43 +1,34 @@
 worker_processes auto;
 rtmp_auto_push on;
 rtmp_auto_push_reconnect 1s;
-
-events {
-    worker_connections 1024;
-}
-
+events {}
 rtmp {
     server {
         listen 1935;
         listen [::]:1935 ipv6only=on;
         chunk_size 4096;
-
         application live {
             live on;
             record off;
-            
-            # Stream key validation - fixed query parameter syntax
-            on_publish http://127.0.0.1:8080/validate?name=$name;
-
-            # Services - commented out for reference
-            #push rtmp://stream.facebook.com:443/live/$name;    #facebook
-            #push rtmp://a.rtmp.youtube.com/live2/$name;        #youtube
-            #push rtmp://live.cloudflare.com:443/live/$name;    #cloudflare
-            #push rtmp://live.twitch.tv/app/$name;              #twitch
-            #push rtmp://custom-server-1.com/live/$name;        #rtmp1
-            #push rtmp://custom-server-2.com/live/$name;        #rtmp2
-            #push rtmp://custom-server-3.com/live/$name;        #rtmp3
-            #push rtmp://stream.kick.com/live/$name;            #kick
-            #push rtmp://livepush.trovo.live/live/$name;        #trovo
-            #push rtmp://stream.twitter.com:443/live/$name;     #x
+            # Stream key validation
+            on_publish http://127.0.0.1:8080/validate?$name;
+            # Services
+            #facebook
+            #youtube
+            #cloudflare
+            #twitch
+            #rtmp1
+            #rtmp2
+            #rtmp3
+            #kick
+            #trovo
+            #x
         }
-
         application instagram {
             live on;
             record off;
-            
-            # Stream key validation - fixed query parameter syntax
-            on_publish http://127.0.0.1:8080/validate?name=$name;
+            # Stream key validation
+            on_publish http://127.0.0.1:8080/validate?$name;
         }
     }
 }
@@ -46,29 +37,20 @@ http {
     include       mime.types;
     default_type  application/octet-stream;
 
-    # Basic settings
-    sendfile        on;
-    keepalive_timeout  65;
-
     server {
         listen 8080;
         server_name localhost;
 
         # Validate stream key
-        location = /validate {
+        location /validate {
             internal;
-            
-            # Better if condition syntax
-            if ($arg_name = "your_single_stream_key_here") {
-                return 200;
-            }
-            return 403;
-        }
 
-        # Add basic root location
-        location / {
-            root   html;
-            index  index.html index.htm;
+            # Match a single stream key
+            if ($arg_name != "your_single_stream_key_here") {
+                return 403;
+            }
+
+            return 200;
         }
     }
 }
