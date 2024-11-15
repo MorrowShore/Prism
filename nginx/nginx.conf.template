@@ -46,7 +46,7 @@ http {
             internal;
 
             # Match a single stream key
-            if ($arg_name != "your_single_stream_key_here") {
+            if ($arg_name = "your_single_stream_key_here") {
                 return 403;
             }
 
