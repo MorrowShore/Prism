@@ -11,7 +11,7 @@ rtmp {
             live on;
             record off;
             # Stream key validation
-            on_publish http://127.0.0.1:8080/validate?$name;
+            on_publish http://127.0.0.1:8080/validate?name=$name;
             # Services
             #facebook
             #youtube
@@ -28,28 +28,29 @@ rtmp {
             live on;
             record off;
             # Stream key validation
-            on_publish http://127.0.0.1:8080/validate?$name;
+            on_publish http://127.0.0.1:8080/validate?name=$name;
         }
     }
 }
-
 http {
     include       mime.types;
     default_type  application/octet-stream;
-
     server {
         listen 8080;
         server_name localhost;
-
         # Validate stream key
         location /validate {
             internal;
-
             # Match a single stream key
-            if ($arg_name = "your_single_stream_key_here") {
-                return 403;
+            if ($arg_name) {
+                set $validated 0;
+                if ($arg_name = "your_single_stream_key_here") {
+                    set $validated 1;
+                }
+                if ($validated = 0) {
+                    return 403;
+                }
             }
-
             return 200;
         }
     }
