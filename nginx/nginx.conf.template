@@ -39,7 +39,7 @@ rtmp {
             record off;
 
             # Optional: Separate stream key validation for Instagram
-            allow publish "instagram_secret_key";
+            allow publish "your_secret_key_here";
             deny publish all;
 
             #instagram
