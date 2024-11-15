@@ -44,10 +44,10 @@ http {
             if ($arg_name = "") {
                 return 403;
             }
-            if ($arg_name = "your_secret_key_here") {
+            if ($arg_name "your_secret_key_here") {
                 return 200;
             }
-            if ($arg_name = "another_valid_key_here") {
+            if ($arg_name "another_valid_key_here") {
                 return 200;
             }
             return 403;
