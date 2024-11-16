@@ -16,13 +16,9 @@ rtmp {
         listen [::]:1935 ipv6only=on;
         chunk_size 2048;        # Reduced for lower latency
         
-        # Low latency optimizations with correct syntax
+        # Low latency optimizations
         max_message 1M;
         timeout 10s;            
-        
-        # TCP optimizations
-        tcp_nodelay on;
-        so_keepalive on;
         
         # Facebook Application
         application facebook {
