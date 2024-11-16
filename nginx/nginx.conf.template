@@ -8,9 +8,7 @@ rtmp {
         listen [::]:1935 ipv6only=on;
         chunk_size 2048;
 
-        max_message 1M;
-        timeout 10s;    
-		
+
         # Facebook Application
         application facebook {
             live on;
