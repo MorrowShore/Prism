@@ -16,25 +16,24 @@ rtmp {
         listen [::]:1935 ipv6only=on;
         chunk_size 2048;        # Reduced for lower latency
         
-        # Enhanced low latency optimizations
-        buflen 0.05s;           # Further reduced buffer length
+        # Low latency optimizations with correct syntax
         max_message 1M;
-        timeout 10s;            # Reduced timeout
+        timeout 10s;            
         
         # TCP optimizations
-        tcp_nodelay on;         # Disable Nagle's algorithm
-        so_keepalive on;        # Keep connections alive
+        tcp_nodelay on;
+        so_keepalive on;
         
         # Facebook Application
         application facebook {
             live on;
             record off;
-            sync 10ms;          # Reduced sync time
+            sync 10ms;
             interleave on;
             wait_key on;
             wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${FACEBOOK_URL}${FACEBOOK_KEY} flashver=FMLE/3.0 live=1 buffer=0;
+            push ${FACEBOOK_URL}${FACEBOOK_KEY} flashver=FMLE/3.0 live=1;
         }
         
         # Twitch Application
@@ -46,7 +45,7 @@ rtmp {
             wait_key on;
             wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${TWITCH_URL}${TWITCH_KEY} flashver=FMLE/3.0 live=1 buffer=0;
+            push ${TWITCH_URL}${TWITCH_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # YouTube Application
@@ -58,7 +57,7 @@ rtmp {
             wait_key on;
             wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${YOUTUBE_URL}${YOUTUBE_KEY} flashver=FMLE/3.0 live=1 buffer=0;
+            push ${YOUTUBE_URL}${YOUTUBE_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # Kick Application
@@ -70,7 +69,7 @@ rtmp {
             wait_key on;
             wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${KICK_URL}${KICK_KEY} flashver=FMLE/3.0 live=1 buffer=0;
+            push ${KICK_URL}${KICK_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # X Application
@@ -82,7 +81,7 @@ rtmp {
             wait_key on;
             wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${X_URL}${X_KEY} flashver=FMLE/3.0 live=1 buffer=0;
+            push ${X_URL}${X_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # Generic live application for multi-streaming
