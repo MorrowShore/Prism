@@ -6,8 +6,7 @@ rtmp {
     server {
         listen 1935;
         listen [::]:1935 ipv6only=on;
-        chunk_size 2048;
-
+        chunk_size 4096;
 
         # Facebook Application
         application facebook {
