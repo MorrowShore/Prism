@@ -1,49 +1,94 @@
 worker_processes auto;
+worker_cpu_affinity auto;
+worker_rlimit_nofile 65535;
 rtmp_auto_push on;
 rtmp_auto_push_reconnect 1s;
-events {}
+
+events {
+    worker_connections 65535;
+    multi_accept on;
+    use epoll;
+}
+
 rtmp {
     server {
         listen 1935;
         listen [::]:1935 ipv6only=on;
         chunk_size 4096;
+        
+        # Optimize for low latency
+        buflen 0.1s;  # Reduce buffer length
+        max_message 1M;
+        timeout 15s;
 
+        # Facebook Application
+        application facebook {
+            live on;
+            record off;
+            sync 30ms;
+            interleave on;
+            wait_key on;
+            wait_video on;
+            on_publish http://127.0.0.1:8080/validate?key=$name;
+            push ${FACEBOOK_URL}${FACEBOOK_KEY} flashver=FMLE/3.0 live=1;
+        }
+        
         # Twitch Application
         application twitch {
             live on;
             record off;
+            sync 30ms;
+            interleave on;
+            wait_key on;
+            wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${TWITCH_URL}${TWITCH_KEY};
+            push ${TWITCH_URL}${TWITCH_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # YouTube Application
         application youtube {
             live on;
             record off;
+            sync 30ms;
+            interleave on;
+            wait_key on;
+            wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${YOUTUBE_URL}${YOUTUBE_KEY};
+            push ${YOUTUBE_URL}${YOUTUBE_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # Kick Application
         application kick {
             live on;
             record off;
+            sync 30ms;
+            interleave on;
+            wait_key on;
+            wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${KICK_URL}${KICK_KEY};
+            push ${KICK_URL}${KICK_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # X Application
         application x {
             live on;
             record off;
+            sync 30ms;
+            interleave on;
+            wait_key on;
+            wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
-            push ${X_URL}${X_KEY};
+            push ${X_URL}${X_KEY} flashver=FMLE/3.0 live=1;
         }
 
         # Generic live application for multi-streaming
         application live {
             live on;
             record off;
+            sync 30ms;
+            interleave on;
+            wait_key on;
+            wait_video on;
             on_publish http://127.0.0.1:8080/validate?key=$name;
             
             #youtube
