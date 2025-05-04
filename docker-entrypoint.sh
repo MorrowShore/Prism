@@ -3,121 +3,115 @@ set -e
 
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
+VALIDATOR_LOG=/tmp/validator.log
 ENV_OK=0
+MAX_WAIT_VALIDATOR=15 # Maximum seconds to wait for validator
 
-# Start the stream key validation server
+# !!! Removed MASTER_STREAM_KEY check !!!
+# The container will now start without it, relying on destination keys for validation.
+
 echo "Starting stream key validation server..."
-python3 /stream_validator.py &
+# Start in background, redirect stdout/stderr to a log file
+python3 /stream_validator.py > "$VALIDATOR_LOG" 2>&1 &
 VALIDATOR_PID=$!
+echo "Validator PID: $VALIDATOR_PID"
 
-# Wait briefly to ensure validator is running
-sleep 2
+# --- Robust Validator Check ---
+echo "Waiting for validator to be ready..."
+WAIT_COUNT=0
+VALIDATOR_READY=0
+while [ $WAIT_COUNT -lt $MAX_WAIT_VALIDATOR ]; do
+    # Check if process exists AND responds to health check
+    if kill -0 $VALIDATOR_PID 2>/dev/null && curl --fail --silent http://127.0.0.1:8080/health > /dev/null; then
+        echo "Validator is running and responding."
+        VALIDATOR_READY=1
+        break
+    fi
+    echo "Validator not ready yet, waiting... (${WAIT_COUNT}s / ${MAX_WAIT_VALIDATOR}s)"
+    sleep 1
+    WAIT_COUNT=$((WAIT_COUNT + 1))
+done
 
-# Check if validator is running
-if ! kill -0 $VALIDATOR_PID 2>/dev/null; then
-    echo "Warning: Stream key validator failed to start"
+if [ $VALIDATOR_READY -eq 0 ]; then
+    echo "ERROR: Stream key validator failed to start or respond within ${MAX_WAIT_VALIDATOR} seconds."
+    echo "Check validator logs:"
+    cat "$VALIDATOR_LOG"
+    exit 1
 fi
+# --- End Validator Check ---
 
 
-if [ -n "${YOUTUBE_KEY}" ]; then
-	echo "Youtube activate."
-	sed -i 's|#youtube|push '"$YOUTUBE_URL"'${YOUTUBE_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#youtube| |g' $NGINX_TEMPLATE
-fi
+# --- Configure Nginx based on Environment Variables ---
+# Use a temporary file for sed modifications
+TMP_TEMPLATE=$(mktemp)
+cp $NGINX_TEMPLATE $TMP_TEMPLATE
 
-if [ -n "${FACEBOOK_KEY}" ]; then
-	echo "Facebook activate."
-	sed -i 's|#facebook|push '"$FACEBOOK_URL"'${FACEBOOK_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#facebook| |g' $NGINX_TEMPLATE
-fi
+echo "Configuring Nginx push destinations..."
 
-if [ -n "${INSTAGRAM_KEY}" ]; then
-	echo "Instagram activate."
-	sed -i 's|#instagram|push '"$INSTAGRAM_URL"'${INSTAGRAM_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#instagram| |g' $NGINX_TEMPLATE
-fi
+# Function to add push directive if key is present
+add_push() {
+    local platform_name="$1"
+    local env_key_var="$2"
+    local env_url_var="$3"
+    local template_marker="$4"
+    local push_url="${!env_url_var}" # Indirect variable expansion
+    local key_value="${!env_key_var}" # Indirect variable expansion
 
-if [ -n "${CLOUDFLARE_KEY}" ]; then
-	echo "Cloudflare activate."
-	sed -i 's|#cloudflare|push '"$CLOUDFLARE_URL"'${CLOUDFLARE_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#cloudflare| |g' $NGINX_TEMPLATE
-fi
+    if [ -n "$key_value" ]; then
+        if [ -z "$push_url" ]; then
+             echo "Warning: ${platform_name} key (${env_key_var}) is set, but URL (${env_url_var}) is empty. Skipping push."
+             sed -i "s|#${template_marker}| |g" $TMP_TEMPLATE
+        else
+            echo "${platform_name} activated."
+            # Correctly escape slashes in URLs for sed, use | as delimiter
+            local escaped_push="push ${push_url}${key_value};"
+            sed -i "s|#${template_marker}|${escaped_push}|g" $TMP_TEMPLATE
+            ENV_OK=1
+       fi
+    else
+        # Remove the placeholder comment if key is not set
+        sed -i "s|#${template_marker}| |g" $TMP_TEMPLATE
+    fi
+}
 
-if [ -n "${TWITCH_KEY}" ]; then
-	echo "Twitch activate."
-	sed -i 's|#twitch|push '"$TWITCH_URL"'${TWITCH_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#twitch| |g' $NGINX_TEMPLATE
-fi
+# Add pushes for each platform using the function
+add_push "Youtube"    "YOUTUBE_KEY"    "YOUTUBE_URL"    "youtube"
+add_push "Facebook"   "FACEBOOK_KEY"   "FACEBOOK_URL"   "facebook"
+add_push "Instagram"  "INSTAGRAM_KEY"  "INSTAGRAM_URL"  "instagram"
+add_push "Cloudflare" "CLOUDFLARE_KEY" "CLOUDFLARE_URL" "cloudflare"
+add_push "Twitch"     "TWITCH_KEY"     "TWITCH_URL"     "twitch"
+add_push "Kick"       "KICK_KEY"       "KICK_URL"       "kick"
+add_push "X (Twitter)" "X_KEY"          "X_URL"          "x"
+add_push "Trovo"      "TROVO_KEY"      "TROVO_URL"      "trovo"
+add_push "RTMP1"      "RTMP1_KEY"      "RTMP1_URL"      "rtmp1"
+add_push "RTMP2"      "RTMP2_KEY"      "RTMP2_URL"      "rtmp2"
+add_push "RTMP3"      "RTMP3_KEY"      "RTMP3_URL"      "rtmp3"
 
-if [ -n "${RTMP1_KEY}" ]; then
-	echo "Rtmp1 activate."
-	sed -i 's|#rtmp1|push '"$RTMP1_URL"'${RTMP1_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#rtmp1| |g' $NGINX_TEMPLATE
-fi
-
-if [ -n "${RTMP2_KEY}" ]; then
-	echo "Rtmp2 activate."
-	sed -i 's|#rtmp2|push '"$RTMP2_URL"'${RTMP2_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#rtmp2| |g' $NGINX_TEMPLATE
-fi
-
-if [ -n "${RTMP3_KEY}" ]; then
-	echo "Rtmp3 activate."
-	sed -i 's|#rtmp3|push '"$RTMP3_URL"'${RTMP3_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#rtmp3| |g' $NGINX_TEMPLATE
-fi
-
-if [ -n "${TROVO_KEY}" ]; then
-	echo "Trovo activate."
-	sed -i 's|#trovo|push '"$TROVO_URL"'${TROVO_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#trovo| |g' $NGINX_TEMPLATE
-fi
-
-if [ -n "${KICK_KEY}" ]; then
-	echo "Kick activate."
-	sed -i 's|#kick|push '"$KICK_URL"'${KICK_KEY};|g' $NGINX_TEMPLATE
-	ENV_OK=1
-else
-	sed -i 's|#kick| |g' $NGINX_TEMPLATE
-fi
-
-if [ -n "${X_KEY}" ]; then
-        echo "X activate."
-        sed -i 's|#x|push '"$X_URL"'${X_KEY};|g' $NGINX_TEMPLATE
-        ENV_OK=1
-else
-        sed -i 's|#x| |g' $NGINX_TEMPLATE
-fi
 
 if [ $ENV_OK -eq 1 ]; then
-    envsubst < $NGINX_TEMPLATE > $NGINX_CONF
+    echo "Generating final Nginx configuration..."
+    # Use envsubst for any remaining ${VAR} placeholders (though we added most via sed now)
+    # Define the list of variables envsubst should consider
+    EXPORT_VARS=$(printf '${%s} ' $(env | cut -d= -f1))
+    envsubst "$EXPORT_VARS" < $TMP_TEMPLATE > $NGINX_CONF
+    rm $TMP_TEMPLATE # Clean up temp file
 else
-	echo "Start local server."
+    echo "Warning: No destination stream keys provided. Nginx will start, but no streams will be pushed, and no incoming streams will be accepted."
+    # Still generate config from template, it will just have no push directives
+    envsubst "$EXPORT_VARS" < $TMP_TEMPLATE > $NGINX_CONF
+    rm $TMP_TEMPLATE
 fi
 
+# Debug output if requested
 if [ -n "${DEBUG}" ]; then
-	echo $NGINX_CONF
-	cat $NGINX_CONF
+    echo "--- Final Nginx Configuration (${NGINX_CONF}) ---"
+    cat $NGINX_CONF
+    echo "-------------------------------------------------"
 fi
 
-stunnel4
+echo "Starting Stunnel..."
+# Start stunnel in the background
+stunnel4 /etc/stunnel/stunnel.conf
 
-exec "$@"
+echo "Starting Nginx..."
+exec "$@" # Execute the CMD from Dockerfile (nginx -g 'daemon off;')
