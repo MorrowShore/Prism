@@ -2,7 +2,16 @@
 
 set -e
 
+SERVER_IP=$(
+    curl -sf https://1.1.1.1/cdn-cgi/trace | grep -oP 'ip=\K.*' 2>/dev/null || \
+    curl -sf https://checkip.amazonaws.com 2>/dev/null || \
+    echo "unknown-ip"
+)
 
+if [[ ! $SERVER_IP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    SERVER_IP=$(hostname -i)
+    echo "WARNING: Using container IP ($SERVER_IP). Public IP detection failed."
+fi
 
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
@@ -102,9 +111,12 @@ fi
 stunnel4
 
 export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
-IP=$(hostname -i)
+
+
 echo "======================================"
-echo "Stream URL: rtmp://$IP/$STREAM_APP"
+echo "Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP"
+echo "======================================"
+echo "Your Stream Key Does Not Matter"
 echo "======================================"
 
 
