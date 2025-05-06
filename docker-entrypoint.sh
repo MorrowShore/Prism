@@ -15,7 +15,6 @@ NGINX_CONF=/etc/nginx/nginx.conf
 ENV_OK=0
 
 export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
-envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
 if [ -n "${YOUTUBE_KEY}" ]; then
 	echo "Youtube activate."
@@ -97,6 +96,11 @@ else
 	sed -i 's|#kick| |g' $NGINX_TEMPLATE
 fi
 
+if [ $ENV_OK -eq 1 ]; then
+    envsubst < $NGINX_TEMPLATE > $NGINX_CONF
+else
+	echo "Start local server."
+fi
 
 if [ -n "${DEBUG}" ]; then
 	echo $NGINX_CONF
