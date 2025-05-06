@@ -111,11 +111,11 @@ stunnel4
 
 
 
-echo "======================================"
-echo "Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP"
-echo "======================================"
-echo "Your Stream Key Does Not Matter"
-echo "======================================"
+echo "======================================" >&2
+echo "Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP" >&2
+echo "======================================" >&2
+echo "Your Stream Key Does Not Matter" >&2
+echo "======================================" >&2
 
 
 
