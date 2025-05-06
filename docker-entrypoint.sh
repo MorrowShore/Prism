@@ -2,6 +2,8 @@
 
 set -e
 
+
+
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
 ENV_OK=0
@@ -98,5 +100,15 @@ if [ -n "${DEBUG}" ]; then
 fi
 
 stunnel4
+
+export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
+IP=$(hostname -i)
+echo "======================================"
+echo "Stream URL: rtmp://$IP/$STREAM_APP"
+echo "======================================"
+
+
+envsubst '$STREAM_APP' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+
 
 exec "$@"
