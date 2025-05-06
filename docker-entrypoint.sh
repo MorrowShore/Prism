@@ -8,14 +8,14 @@ SERVER_IP=$(
     echo "unknown-ip"
 )
 
-if [[ ! $SERVER_IP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-    SERVER_IP=$(hostname -i)
-    echo "WARNING: Using container IP ($SERVER_IP). Public IP detection failed."
-fi
+
 
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
 ENV_OK=0
+
+export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
+envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
 if [ -n "${YOUTUBE_KEY}" ]; then
 	echo "Youtube activate."
@@ -97,11 +97,6 @@ else
 	sed -i 's|#kick| |g' $NGINX_TEMPLATE
 fi
 
-if [ $ENV_OK -eq 1 ]; then
-    envsubst < $NGINX_TEMPLATE > $NGINX_CONF
-else
-	echo "Start local server."
-fi
 
 if [ -n "${DEBUG}" ]; then
 	echo $NGINX_CONF
@@ -110,7 +105,6 @@ fi
 
 stunnel4
 
-export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
 
 
 echo "======================================"
@@ -120,7 +114,7 @@ echo "Your Stream Key Does Not Matter"
 echo "======================================"
 
 
-envsubst '$STREAM_APP' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+
 
 
 exec "$@"
