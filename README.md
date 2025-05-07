@@ -65,7 +65,7 @@ docker run -d -p 1935:1935 --name prism \
   -e RTMP3_KEY="custom-rtmp3-key" \
   prism && sleep 1 && docker logs prism | grep -A5 "# "
 ```
-Each line starting with -e signals a destination. Remove all the destination lines that don't concern you.<br>
+Each line starting with -e signals a destination. **Remove all the destination lines that don't concern you.**<br>
 In order words, if you're not going to stream to a specific platform, simply remove the entire line concerning it from the command above.
 
  
@@ -78,7 +78,7 @@ Your Stream Destination: rtmp://123.123.123.123/eeKZWH4iDPyo
 Your Stream Key Does Not Matter
 ======================================
 ```
-This gives you your stream destination and your stream key.
+**This gives you your stream destination and your stream key.**
 
 
 Note: RTMP1, RTMP2, and RTMP3 refer to custom destinations. <br>You can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
