@@ -1,3 +1,5 @@
+# NOW WITH SECURITY FEATURE
+
 ## NOW WITH CUSTOM DESTINATIONS
 
 
@@ -42,13 +44,27 @@ docker build -t prism github.com/MorrowShore/Prism
 docker images
 ```
 
-* 6- Now edit the following prompt with your own key, and then run it:
+* 6- Now edit the following prompt with your own key, then copy it all, then paste it in your server's terminal and run it:
 
 ```
-docker run -it -p -d 1935:1935 --name prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" -e RTMP1_URL="<custom RTMP1 server>" -e RTMP1_KEY="<custom RTMP1 key>" -e RTMP2_URL="<custom RTMP2 server>" -e RTMP2_KEY="<custom RTMP2 key>" -e RTMP3_URL="<custom RTMP3 server>" -e RTMP3_KEY="<custom RTMP3 key>" prism && sleep 1 && docker logs prism | grep -A5 "Stream Destination:"
+docker run -d -p 1935:1935 --name prism \
+  -e YOUTUBE_KEY="your-youtube-key" \
+  -e FACEBOOK_KEY="your-facebook-key" \
+  -e INSTAGRAM_KEY="your-instagram-key" \
+  -e TWITCH_URL="your-twitch-server" \
+  -e TWITCH_KEY="your-twitch-key" \
+  -e TROVO_KEY="your-trovo-key" \
+  -e KICK_KEY="your-kick-key" \
+  -e RTMP1_URL="custom-rtmp1-server" \
+  -e RTMP1_KEY="custom-rtmp1-key" \
+  -e RTMP2_URL="custom-rtmp2-server" \
+  -e RTMP2_KEY="custom-rtmp2-key" \
+  -e RTMP3_URL="custom-rtmp3-server" \
+  -e RTMP3_KEY="custom-rtmp3-key" \
+  prism && sleep 1 && docker logs prism | grep -A5 "# "
 ```
 
-If you're not going to stream to a specific platform, simply remove it from the prompt (along with the "-e" before it).
+If you're not going to stream to a specific platform, simply remove the entire lines concerning it from the command above.
 
 
 After running it, you will see a report, such as 
