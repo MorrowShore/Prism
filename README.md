@@ -65,10 +65,10 @@ docker run -d -p 1935:1935 --name prism \
   -e RTMP3_KEY="custom-rtmp3-key" \
   prism && sleep 1 && docker logs prism | grep -A5 "# "
 ```
-Each line starting with -e signals a destination. Remove all the destination lines that don't concern you.
+Each line starting with -e signals a destination. Remove all the destination lines that don't concern you.<br>
 In order words, if you're not going to stream to a specific platform, simply remove the entire line concerning it from the command above.
-
-
+<br>
+<br>
 After running it, you will see a report, such as 
 ```
 ======================================
