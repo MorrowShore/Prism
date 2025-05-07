@@ -29,23 +29,25 @@ ssh  ssh://root@<server IP address>
 ```
 
 * 2- Enter the password (it will be hidden).
+If you haven't set a password before, use what your VPS provider gave you.
 
 
 * 3- Install docker.
-
+```
+sudo apt update && sudo apt upgrade -y && sudo apt install -y docker.io docker-compose
+```
 
 * 4- Build our image:
 ```
 docker build -t prism github.com/MorrowShore/Prism
 ```
 
-* 5- Verify it has been built:
+* 5- Verify it has been built: (you should see "prism" in the list)
 ```bash
 docker images
 ```
 
-* 6- Now edit the following prompt with your own key, then copy it all, then paste it in your server's terminal and run it:
-
+* 6- Now edit the following command with your own key, then copy it all, then paste it in your server's terminal and run it:
 ```
 docker run -d -p 1935:1935 --name prism \
   -e YOUTUBE_KEY="your-youtube-key" \
@@ -63,8 +65,8 @@ docker run -d -p 1935:1935 --name prism \
   -e RTMP3_KEY="custom-rtmp3-key" \
   prism && sleep 1 && docker logs prism | grep -A5 "# "
 ```
-
-If you're not going to stream to a specific platform, simply remove the entire lines concerning it from the command above.
+Each line starting with -e signals a destination. Remove all the destination lines that don't concern you.
+In order words, if you're not going to stream to a specific platform, simply remove the entire line concerning it from the command above.
 
 
 After running it, you will see a report, such as 
@@ -78,7 +80,7 @@ Your Stream Key Does Not Matter
 This gives you your stream destination and your stream key.
 
 
-RTMP1, RTMP2, and RTMP3 refer to custom destinations; you can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
+Note: RTMP1, RTMP2, and RTMP3 refer to custom destinations. <br>You can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
 
 * 7- In OBS' stream options, enter your stream destination in the Server field. For a made-up example:
 ```
