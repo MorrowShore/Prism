@@ -48,7 +48,10 @@ docker images
 docker run -it -p -d 1935:1935 --name prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" -e RTMP1_URL="<custom RTMP1 server>" -e RTMP1_KEY="<custom RTMP1 key>" -e RTMP2_URL="<custom RTMP2 server>" -e RTMP2_KEY="<custom RTMP2 key>" -e RTMP3_URL="<custom RTMP3 server>" -e RTMP3_KEY="<custom RTMP3 key>" prism && sleep 1 && docker logs prism | grep -A5 "Stream Destination:"
 ```
 
-Now you will see a report, such as 
+If you're not going to stream to a specific platform, simply remove it from the prompt (along with the "-e" before it).
+
+
+After running it, you will see a report, such as 
 ```
 ======================================
 Your Stream Destination: rtmp://123.123.123.123/eeKZWH4iDPyo
@@ -60,7 +63,6 @@ This gives you your stream destination and your stream key.
 
 
 RTMP1, RTMP2, and RTMP3 refer to custom destinations; you can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
-If you're not going to stream to a specific platform, simply remove it from the prompt (along with the "-e" before it).
 
 * 7- In OBS' stream options, enter the following in the Server field:
 ```
