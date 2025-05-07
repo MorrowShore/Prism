@@ -80,7 +80,7 @@ This gives you your stream destination and your stream key.
 
 RTMP1, RTMP2, and RTMP3 refer to custom destinations; you can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
 
-* 7- In OBS' stream options, enter the following in the Server field:
+* 7- In OBS' stream options, enter your stream destination in the Server field. For a made-up example:
 ```
 rtmp://123.123.123.123/eeKZWH4iDPyo
 ```
