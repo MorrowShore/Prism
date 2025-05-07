@@ -1,6 +1,10 @@
-# NOW WITH SECURITY FEATURE
+# Prism: Self-hosted Multistreaming Solution
 
-## NOW WITH CUSTOM DESTINATIONS
+## NOW WITH SECURITY FEATURE
+
+### NOW WITH CUSTOM DESTINATIONS
+
+---
 
 ## Introduction
 
@@ -9,6 +13,8 @@ Would you like to stream to Twitch, Youtube, Kick, Trovo, Facebook, Instagram, a
 You can host Prism on a server to act as a prism for your streamed content!
 
 You can then simply stream to your Prism, and it will send your stream to all the platforms you'd like.
+
+No need to pay restream or cloudflare!
 
 
 ---
