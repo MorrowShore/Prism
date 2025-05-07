@@ -79,7 +79,18 @@ docker run -d -p 1935:1935 --name prism \
   prism && sleep 1 && docker logs prism | grep -A5 "# "
 ```
 Each line starting with -e signals a destination. **Remove all the destination lines that don't concern you.**<br>
-In order words, if you're not going to stream to a specific platform, simply remove the entire line concerning it from the command above.
+In order words, if you're not going to stream to a specific platform, simply remove the entire line involving it from the command above.
+
+---
+Example of a command. As you can see, the lines that we didn't want to stream on are gone. 
+```
+docker run -d -p 1935:1935 --name prism \
+  -e YOUTUBE_KEY="aBcD-1234-aBcD-1234-aBcD" \
+  -e TWITCH_URL="rtmp://lhr03.contribute.live-video.net/app/" \
+  -e TWITCH_KEY="live_12341234_abcABCabcABCabcABCabcABCabcABC" \
+  -e KICK_KEY="sk_us-west-2_123412341234_abcABCabcABCabcABCabcABCabcABC" \
+  prism && sleep 1 && docker logs prism | grep -A5 "# "
+```
 
 
 ---
