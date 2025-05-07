@@ -5,7 +5,7 @@
 ### NOW WITH CUSTOM DESTINATIONS
 
 ---
-
+---
 ## Introduction
 
 Would you like to stream to Twitch, Youtube, Kick, Trovo, Facebook, Instagram, and etc at once, but don't have the upload capacity to do it from your own computer?
@@ -18,7 +18,7 @@ No need to pay restream or cloudflare!
 
 
 ---
-
+---
 ## Prequisites
 
 You'd need a VPS server for this, but fret not, its specification or power does not matter!
@@ -110,7 +110,8 @@ As for the Prism stream key in OBS settings, you can put anything.
 We advise you test it with two platforms first.
 
 
-
+---
+---
 ## How To Manage
 
 * To STOP the docker, (multistreaming server) run:
@@ -158,7 +159,7 @@ docker rmi <IMAGE_ID>
 ```
 
 ---
-
+---
 ## Debugging
 
 If something is not working you can check the logs of the container with:
@@ -167,7 +168,8 @@ If something is not working you can check the logs of the container with:
 docker logs prism
 ```
 
-
+---
+---
 ## Support
 
 Need help with anything, or have thought of an upgrade?
