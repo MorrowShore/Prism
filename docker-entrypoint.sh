@@ -8,24 +8,20 @@ SERVER_IP=$(
     echo "unknown-ip"
 )
 
+export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
+
+
+CONNECTION_INFO="# ======================================\n# Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP\n# ======================================\n# Your Stream Key Does Not Matter\n# ======================================\n"
+echo -e "$CONNECTION_INFO" >&2
+{
+    echo -e "$CONNECTION_INFO"
+} > /proc/1/fd/1
+
 
 
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
 ENV_OK=0
-
-export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
-
-
-
-
-echo "======================================" >&2
-echo "Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP" >&2
-echo "======================================" >&2
-echo "Your Stream Key Does Not Matter" >&2
-echo "======================================" >&2
-
-
 
 
 if [ -n "${YOUTUBE_KEY}" ]; then
