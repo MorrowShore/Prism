@@ -16,6 +16,18 @@ ENV_OK=0
 
 export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
 
+
+
+
+echo "======================================" >&2
+echo "Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP" >&2
+echo "======================================" >&2
+echo "Your Stream Key Does Not Matter" >&2
+echo "======================================" >&2
+
+
+
+
 if [ -n "${YOUTUBE_KEY}" ]; then
 	echo "Youtube activate."
 	sed -i 's|#youtube|push '"$YOUTUBE_URL"'${YOUTUBE_KEY};|g' $NGINX_TEMPLATE
@@ -108,14 +120,6 @@ if [ -n "${DEBUG}" ]; then
 fi
 
 stunnel4
-
-
-
-echo "======================================" >&2
-echo "Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP" >&2
-echo "======================================" >&2
-echo "Your Stream Key Does Not Matter" >&2
-echo "======================================" >&2
 
 
 
