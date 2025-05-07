@@ -11,7 +11,7 @@ SERVER_IP=$(
 export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
 
 
-CONNECTION_INFO="# ======================================\n# Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP\n# ======================================\n# Your Stream Key Does Not Matter\n# ======================================\n"
+CONNECTION_INFO="# ======================================\n# ======================================\n# Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP\n# ======================================\n# Your Stream Key Does Not Matter\n# ======================================\n"
 echo -e "$CONNECTION_INFO" >&2
 {
     echo -e "$CONNECTION_INFO"
