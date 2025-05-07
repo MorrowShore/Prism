@@ -1,5 +1,10 @@
-## NOW WITH CUSTOM DESTINATIONS
+# Prism: Self-hosted Multistreaming Solution
 
+## NOW WITH SECURITY FEATURE
+
+### NOW WITH CUSTOM DESTINATIONS
+
+---
 
 ## Introduction
 
@@ -9,16 +14,21 @@ You can host Prism on a server to act as a prism for your streamed content!
 
 You can then simply stream to your Prism, and it will send your stream to all the platforms you'd like.
 
+No need to pay restream or cloudflare!
 
+
+---
 
 ## Prequisites
 
 You'd need a VPS server for this, but fret not, its specification or power does not matter!
 
-You can get very cheap (1~5 USD) Linux VPS from providers such as Linode, Ionos, Digital Ocean, etc.
+You can get very cheap (1~5 USD) Linux VPS from providers such as OVH, Hetzner, Netcup, Linode, IONOS, Digital Ocean, etc.
 
 
 
+---
+---
 ## How To Set up
 
 * 1- SSH into your VPS server,
@@ -26,38 +36,75 @@ You can get very cheap (1~5 USD) Linux VPS from providers such as Linode, Ionos,
 ssh  ssh://root@<server IP address>
 ```
 
-* 2- Enter the password (it will be hidden).
+---
+* 2- Enter the password (it will be hidden).<br>
+If you haven't set a password before, use what your VPS provider gave you.
 
-
+---
 * 3- Install docker.
+```
+sudo apt update && sudo apt upgrade -y && sudo apt install -y docker.io docker-compose
+```
 
-
+---
 * 4- Build our image:
 ```
 docker build -t prism github.com/MorrowShore/Prism
 ```
-
-* 5- Verify it has been built:
+---
+* 5- Verify it has been built: (you should see "prism" in the list)
 ```bash
 docker images
 ```
 
-* 6- Now edit the following prompt with your own key, and then run it:
-
+---
+* 6- Now edit the following command with your own key, then copy it all, then paste it in your server's terminal and run it:
 ```
-docker run -it -p 1935:1935 --name prism -e TWITCH_URL="<twitch server>" -e TWITCH_KEY="<twitch key>" -e FACEBOOK_KEY="<facebook key>" -e YOUTUBE_KEY="<youtube key>" -e TROVO_KEY="<trovo key>" -e KICK_KEY="<kick key>" -e RTMP1_URL="<custom RTMP1 server>" -e RTMP1_KEY="<custom RTMP1 key>" -e RTMP2_URL="<custom RTMP2 server>" -e RTMP2_KEY="<custom RTMP2 key>" -e RTMP3_URL="<custom RTMP3 server>" -e RTMP3_KEY="<custom RTMP3 key>" prism
+docker run -d -p 1935:1935 --name prism \
+  -e YOUTUBE_KEY="your-youtube-key" \
+  -e FACEBOOK_KEY="your-facebook-key" \
+  -e INSTAGRAM_KEY="your-instagram-key" \
+  -e TWITCH_URL="your-twitch-server" \
+  -e TWITCH_KEY="your-twitch-key" \
+  -e TROVO_KEY="your-trovo-key" \
+  -e KICK_KEY="your-kick-key" \
+  -e CLOUDFLARE_KEY="your-cf-key" \
+  -e INSTAGRAM_KEY="your-ig-key" \
+  -e RTMP1_URL="custom-rtmp1-server" \
+  -e RTMP1_KEY="custom-rtmp1-key" \
+  -e RTMP2_URL="custom-rtmp2-server" \
+  -e RTMP2_KEY="custom-rtmp2-key" \
+  -e RTMP3_URL="custom-rtmp3-server" \
+  -e RTMP3_KEY="custom-rtmp3-key" \
+  prism && sleep 1 && docker logs prism | grep -A5 "# "
 ```
+Each line starting with -e signals a destination. **Remove all the destination lines that don't concern you.**<br>
+In order words, if you're not going to stream to a specific platform, simply remove the entire line concerning it from the command above.
 
-RTMP1, RTMP2, and RTMP3 refer to custom destinations; you can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
-If you're not going to stream to a specific platform, simply remove it from the prompt (along with the "-e" before it).
 
-* 7- In OBS' stream options, enter the following in the Server field:
+---
+After running it, you will see a report, such as 
 ```
-rtmp://<server IP address>/live
+======================================
+Your Stream Destination: rtmp://123.123.123.123/eeKZWH4iDPyo
+======================================
+Your Stream Key Does Not Matter
+======================================
+```
+**This gives you your stream destination and your stream key.**
+
+
+Note: RTMP1, RTMP2, and RTMP3 refer to custom destinations. <br>You can fill in the details of custom destinations or platforms by filling in the RTMP variables with their server URL and the stream key.
+
+---
+* 7- In OBS' stream options, enter your stream destination in the Server field. For a made-up example:
+```
+rtmp://123.123.123.123/eeKZWH4iDPyo
 ```
 
 As for the Prism stream key in OBS settings, you can put anything.
 
+---
 * 8- Begin streaming!
 
 We advise you test it with two platforms first.
@@ -111,16 +158,6 @@ docker rmi <IMAGE_ID>
 ```
 
 ---
-
-* To ADD CloudFlare & Instagram support: 
-
-Add the following to the prompt #6
-```
--e CLOUDFLARE_KEY="<key>"
-```
-```
--e INSTAGRAM_KEY="<key>"
-```
 
 ## Debugging
 

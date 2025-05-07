@@ -2,9 +2,27 @@
 
 set -e
 
+SERVER_IP=$(
+    curl -sf https://1.1.1.1/cdn-cgi/trace | grep -oP 'ip=\K.*' 2>/dev/null || \
+    curl -sf https://checkip.amazonaws.com 2>/dev/null || \
+    echo "unknown-ip"
+)
+
+export STREAM_APP=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c12)
+
+
+CONNECTION_INFO="# ======================================\n# ======================================\n# Your Stream Destination: rtmp://$SERVER_IP/$STREAM_APP\n# ======================================\n# Your Stream Key Does Not Matter\n# ======================================\n"
+echo -e "$CONNECTION_INFO" >&2
+{
+    echo -e "$CONNECTION_INFO"
+} > /proc/1/fd/1
+
+
+
 NGINX_TEMPLATE=/etc/nginx/nginx.conf.template
 NGINX_CONF=/etc/nginx/nginx.conf
 ENV_OK=0
+
 
 if [ -n "${YOUTUBE_KEY}" ]; then
 	echo "Youtube activate."
@@ -98,5 +116,9 @@ if [ -n "${DEBUG}" ]; then
 fi
 
 stunnel4
+
+
+
+
 
 exec "$@"
