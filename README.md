@@ -68,6 +68,8 @@ docker run -d -p 1935:1935 --name prism \
   -e TWITCH_KEY="your-twitch-key" \
   -e TROVO_KEY="your-trovo-key" \
   -e KICK_KEY="your-kick-key" \
+  -e CLOUDFLARE_KEY="your-cf-key" \
+  -e INSTAGRAM_KEY="your-ig-key" \
   -e RTMP1_URL="custom-rtmp1-server" \
   -e RTMP1_KEY="custom-rtmp1-key" \
   -e RTMP2_URL="custom-rtmp2-server" \
@@ -156,16 +158,6 @@ docker rmi <IMAGE_ID>
 ```
 
 ---
-
-* To ADD CloudFlare & Instagram support: 
-
-Add the following to the prompt #6
-```
--e CLOUDFLARE_KEY="<key>"
-```
-```
--e INSTAGRAM_KEY="<key>"
-```
 
 ## Debugging
 
