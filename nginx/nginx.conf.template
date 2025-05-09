@@ -12,6 +12,7 @@ rtmp {
             live on;
             record off;
             #facebook
+            #instagram
             #youtube
             #cloudflare
             #twitch
@@ -20,12 +21,6 @@ rtmp {
             #rtmp3
             #kick
             #trovo
-        }
-        
-        application instagram {
-            live on;
-            record off;
-            #instagram
         }
 
     }
